@@ -1,0 +1,287 @@
+﻿@model IEnumerable<nicenicenice.Product>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+@*<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Category</title>
+    </head>
+    <body>
+        <div>
+            <h4>Product</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product_Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Product_Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product_Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Product_Description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product_Category)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Product_Category)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Product_ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </body>
+    </html>*@
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Rock+Salt&display=swap" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+<title>
+    Collectibles
+</title>
+<link rel="stylesheet" type="text/css" href="~/Content/Style/style.css">
+<link rel="stylesheet" type="text/css" href="~/Content/Style/searchicon.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Rock+Salt&display=swap" rel="stylesheet">
+<script>
+
+    $(document).ready(function () {
+        $("a[href='#top']").click(function () {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
+        $("#search-icon").on("click", function () {
+            $("#searchbar").slideToggle(250)
+        });
+    });
+
+</script>
+<style>
+    /*#x2Nav.flexbox {
+      align-items: center;
+    }
+    #x2Nav {
+      margin: 0 auto;
+      width: 1200px;
+      height: 100%;
+    }*/
+
+    body {
+        background-color: #fafafa;
+        height: 100%;
+        position: relative;
+    }
+</style>
+<body>
+    <div id="header-container" class="fixed-header">
+        <div class="nav-container">
+            <nav id="nav-1" class="flexbox">
+                <div class="head-row">
+                    <div class="menu-bar">
+                        <ul id="menu">
+                            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li><a href="@Url.Action("About", "Home")">About</a></li>
+                        </ul>
+                    </div>
+                    <div id="userprofilelink" class="userprofilelink">
+                        <ul id="menu">
+                            <li><a>  @Html.ActionLink(User.Identity.Name, "Index", "Collection", routeValues: null, htmlAttributes: new { id = "Collection" })</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+    </div>
+
+    <div id="main-view" class="main-content">
+        <div id="grid-view" class="grid-content flexbox">
+            <div class="flex-fill hide"></div>
+            <div id="left-nav" class="left-nav">
+                <div class="side-nav scale-up-tl">
+                    <div class="pd" style="padding: 12px 10px;">
+                        <div class="flexbox">
+                            <h2>Browse</h2>
+                        </div>
+                        <div class="extra">
+                            <div class="r1"><h3>@Html.ActionLink("Random", "Randompost", "Home")</h3></div>
+                            <div class="r2"><h3>@Html.ActionLink("Contact Us", "Contact", "Home")</h3></div>
+                            <div class="r2">
+                                <h3>
+                                    @{if (User.IsInRole("Admin"))
+                                        {
+                                            @Html.ActionLink("Edit Items", "Index", "Products")
+                                        }
+                                    }
+                                </h3>
+                            </div>
+                            @if (Request.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <h3>
+                                        <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                                    </h3>
+
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-fill hide"></div>
+            <div id="middle-wrapper" class="middle-content">
+                <div id="main" class="main section">
+                    <div class="posts-title">
+                        @if (Model.Count() == 0)
+                        {
+
+                            <h2 class="title" style="width: 100%; text-align: center">
+                                <!--<a href="/search?&amp;max-results=10">Recent Posts</a>-->
+                                No such item here yet:'(
+                            </h2>
+                            <h3 id="date-time" style="font-size:16px; width: 100%; text-align: center"> We will try to update more!</h3>
+
+                        }
+                        else
+                        {
+                            <h2 class="title" style="text-transform:none">
+                                <!--<a href="/search?&amp;max-results=10">Recent Posts</a>-->
+                                Welcome!
+                            </h2>
+                        }
+
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="post-layout">
+                            <div class="post slide-in-fwd-top">
+                                <div class="post-image">
+                                    <div class="i-insert">
+                                        <a href="#" class="img-effect" style="background : url(@Url.Content("../../Content/Images/" + item.Product_Name.Replace( " " , "" ).Replace(":" , "") +".jpg")) no-repeat ;background-size:cover">
+                                            <span class="thumb-overlay"></span>
+                                        </a>
+                                    </div>
+                                    <div class="post-pos"></div>
+                                </div>
+                                <div class="post-description"></div>
+                                <article>
+                                    <div class="title">
+                                        <h2 class="post-title entry-title">
+
+                                            @Html.ActionLink(item.Product_Name, "Detail", new { id = item.Product_ID })
+
+                                        </h2>
+                                    </div>
+                                    <div class="date-header">
+                                        <div id="date-time">
+                                            <abbr><a href="#" style="color: #bdbdbd;">@Html.DisplayFor(modelItem => item.Product_Category)</a></abbr>
+                                        </div>
+                                        <div class="details">
+
+                                            <span> @Html.DisplayFor(modelItem => item.Product_Description) </span>
+                                            @using (Html.BeginForm("Collect", "Collection", new { id = item.Product_ID }))
+                                            {
+                                                <a class="additem"><input type="submit" value="Collect" class="additem" /></a>
+
+                                            }
+
+
+                                        </div>
+
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!--<div style="clear: both;"></div>-->
+                        </div>
+                    }
+                </div>
+
+            </div>
+            <div class="flex-fill hide"></div>
+            <div id="sidebar-wrapper" class="sidebar-content slide-in-left">
+                <div>
+                    <h2 class="tside">Categories</h2>
+                </div>
+                <div class="widget-content cloud-label-widget-content">
+
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Kpop Album", "Category", "Home", new { id = "Kpop Album" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Figurines", "Category", "Home", new { id = "Figurines" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Games", "Category", "Home", new { id = "Games" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Jpop Album", "Category", "Home", new { id = "Jpop Album" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Antique Coins", "Category", "Home", new { id = "Antique Coins" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Stamps", "Category", "Home", new { id = "Stamps" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Manga", "Category", "Home", new { id = "Manga" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Light novel", "Category", "Home", new { id = "Light novel" }, null)
+                    </span>
+                    <span class="label-size label-size-3">
+                        @Html.ActionLink("Books", "Category", "Home", new { id = "Books" }, null)
+                    </span>
+                </div>
+            </div>
+            <div class="flex-fill hide"></div>
+
+        </div>
+
+    </div>
+    <div id="default-footer">
+        <div class="footer-content">
+            <h2 style="font-family:'Rock Salt', cursive;">Collectibles</h2>
+            <h3 style="font-family:'Open Sans',sans-serif;">If you have any inquiries to make such as wrong information on the items or asking to add specific item, please kindly head to recommendations tab. Thank you.</h3>
+        </div>
+        <div class="footer-wrapper">
+            <div class="fw-layout">
+                <div class="footer-logo"><a href="@Url.Action("Index", "Home")">Collectibles</a></div>
+                <div class="footer-copyright">Copyright 2019</div>
+                <div class="footer-top">
+                    <a href="#top">Top</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

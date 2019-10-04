@@ -1,0 +1,51 @@
+﻿@model nicenicenice.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Product</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Product_Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Product_Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Product_Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Product_Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Product_Category)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Product_Category)
+            </dd>
+    
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Product_ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

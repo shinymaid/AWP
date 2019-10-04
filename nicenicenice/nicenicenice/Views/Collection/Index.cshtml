@@ -1,0 +1,299 @@
+﻿@model IEnumerable<nicenicenice.Collected_DB>
+@using Microsoft.AspNet.Identity
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Rock+Salt&display=swap" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+<title>
+    Collectibles
+</title>
+<link rel="stylesheet" type="text/css" href="~/Content/Style/style.css">
+<link rel="stylesheet" type="text/css" href="~/Content/Style/searchicon.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Rock+Salt&display=swap" rel="stylesheet">
+<script>
+
+
+    $(document).ready(function () {
+        $("a[href='#top']").click(function () {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
+        $("#search-icon").on("click", function () {
+            $("#searchbar").slideToggle(250)
+        });
+    });
+
+</script>
+<style>
+
+    body {
+        background-color: #fafafa;
+        height: 100%;
+        position: relative;
+    }
+
+    .collection {
+        margin-bottom: 20px;
+    }
+
+    .mycollection {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+        .mycollection li:first-child {
+            padding: left;
+        }
+
+        .mycollection .mycollection-items {
+            width: 33.33%;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            float: left;
+            display: block;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0 2.5px;
+            padding-top: 5.5px;
+        }
+
+    .mc-img {
+        width: 100%;
+        height: 200px;
+        position: relative;
+        display: block;
+    }
+
+    .mc-item-content {
+        position: absolute;
+        bottom: 0;
+        padding: 15px 15px 11px;
+        width: 100%;
+        line-height: 1.2em;
+        box-sizing: border-box;
+        z-index: 2;
+    }
+
+        .mc-item-content h3 a:first-child {
+            font-size: 14px;
+            line-height: 1.4em;
+            padding: 10px 0 4px;
+            font-weight: 500;
+            color: #fff;
+            display: inline-block;
+            text-shadow: 0 .5px .5px rgba(34,34,34,0.3);
+        }
+
+        .mc-item-content h3 a {
+            font-size: 14px;
+            line-height: 1.4em;
+            padding: 10px 0 4px;
+            font-weight: 500;
+            color: #fca8ca;
+            display: inline-block;
+            text-shadow: 0 .5px .5px rgba(34,34,34,0.3);
+        }
+
+    .list-title {
+        position: relative;
+        clear: both;
+        z-index: 1;
+        margin: 5px 0 10px;
+        line-height: 33px;
+        border-bottom: rgb(155, 177, 240) solid 2px;
+    }
+
+        .list-title h2 {
+            position: relative;
+            display: inline-block;
+            color: #202020;
+            font-size: 20px;
+            letter-spacing: -.4px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .user-img {
+        width: 76px;
+        height: 76px;
+        ;
+        position: relative;
+        display: block;
+        float: left;
+    }
+
+    .user-name-display {
+        position: relative;
+        left: 10px;
+    }
+
+        .user-name-display h3 {
+            text-align: left;
+            font-size: 15px;
+            color: #202020;
+            float: left;
+            padding-top: 15px;
+        }
+
+    .user-stats {
+        max-height: 1000px;
+        overscroll-behavior: none;
+        padding: 0 7px;
+        position: relative;
+    }
+
+    .stat1:first-child {
+        margin-top: 20px;
+        padding: 6px 0;
+    }
+
+    .user-stats h3 {
+        font-size: 13px;
+        font-weight: 100;
+        color: #636363;
+        margin: 0;
+    }
+</style>
+<body>
+    <div id="header-container" class="fixed-header">
+        <div class="nav-container">
+            <nav id="nav-1" class="flexbox">
+                <div class="head-row">
+                    <div class="menu-bar">
+                        <ul id="menu">
+                            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li><a href="@Url.Action("About", "Home")">About</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="userprofilelink">
+                        <ul id="menu">
+                            <li><a href="@Url.Action("Index", "Collection")">@User.Identity.Name</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+    </div>
+
+    <div id="main-view" class="main-content">
+        <div id="grid-view" class="grid-content flexbox">
+            <div class="flex-fill hide"></div>
+            <div id="left-nav" class="left-nav">
+                <div class="about-user scale-up-tl">
+                    <div class="pd" style="padding: 12px 10px;">
+                        <div class="user-profile flexbox">
+                            <div class="user-image">
+                                <a class="user-img img-effect" href="#" style="background:url(../../Content/Images/user.jpg) no-repeat center center; background-size: cover"></a>
+                            </div>
+                            <div class="user-name-display">
+                                <h3 class="">@User.Identity.Name</h3>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="stat1"><h3>@Html.ActionLink("Edit your account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</h3></div>
+                            <div class="stat1">
+
+                                @if (Request.IsAuthenticated)
+                                {
+                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <h3>
+                                            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                                        </h3>
+
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-fill hide"></div>
+            <div id="middle-wrapper" class="middle-content">
+                <div id="collection" class="collection">
+                    <div class="list-title">
+                        @if (Model.Count() == 0)
+                        {
+
+                            <h2 class="title" style="width: 100%; text-align: center">
+                                <!--<a href="/search?&amp;max-results=10">Recent Posts</a>-->
+                                You have collected....Nothing! :(
+                            </h2>
+                            <h3 id="date-time" style="font-size:16px; width: 100%; text-align: center"> Browse and add items to your collection!</h3>
+
+                        }
+                        else
+                        {
+                            <h2 class="title" style="text-transform:none">
+                                <!--<a href="/search?&amp;max-results=10">Recent Posts</a>-->
+                                My Collections
+                            </h2>
+                        }
+                    </div>
+                    <div class="mycollection">
+                        @foreach (var item in Model)
+                        {
+                            <div class="mycollection-list">
+                                <li class="mycollection-items swing-in-top-fwd">
+                                    <div class="mycollection-img">
+                                        <a class="mc-img img-effect" href="#" style="background:url(@Url.Content("../../Content/Images/" + item.Product.Product_Name.Replace(" ", "").Replace(":", "") + ".jpg")) no-repeat center center;background-size: cover"></a>
+                                    </div>
+                                    <div class="mc-item-content">
+                                        <h3>
+                                            @Html.ActionLink(item.Product.Product_Name, "Detail", "Home", new { id = item.Product.Product_ID }, null)
+                                            @Html.ActionLink("(Delete)", "Delete", new { id = item.Product.Product_ID, uid = User.Identity.Name })
+                                        </h3>
+                                    </div>
+                                </li>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-fill hide"></div>
+            <div id="sidebar-wrapper" class="sidebar-content slide-in-left">
+
+            </div>
+
+        </div>
+    </div>
+    <div id="default-footer">
+        <div class="footer-content">
+            <h2 style="font-family:'Rock Salt', cursive;">Collectibles</h2>
+            <h3 style="font-family:'Open Sans',sans-serif;">If you have any inquiries to make such as wrong information on the items or asking to add specific item, please kindly head to recommendations tab. Thank you.</h3>
+        </div>
+        <div class="footer-wrapper">
+            <div class="fw-layout">
+                <div class="footer-logo"><a href="@Url.Action("Index", "Home")">Collectibles</a></div>
+                <div class="footer-copyright">Copyright 2019</div>
+                <div class="footer-top">
+                    <a href="#top">Top</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
